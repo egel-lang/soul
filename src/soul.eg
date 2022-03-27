@@ -1,0 +1,131 @@
+# The one-stack Soul language
+
+import "prelude.eg"
+import "os.ego"
+import "regex.ego"
+import "search.eg"
+import "dictionary.eg"
+
+using System
+using OS
+using List
+using Search
+
+# lexer
+
+val regex_number = Regex::compile "-?[0-9]+"
+val regex_text   = Regex::compile "\".*\""
+val regex_word   = Regex::compile "[a-z|A-Z|0-9|+|-|*/*|=]+"
+val regex_def    = Regex::compile ":"
+val regex_const  = Regex::compile "!"
+val regex_white  = Regex::compile "([ \t\n]+|#.*)"
+
+data white, word, definition, constant
+
+def lexeme_table =
+    { (regex_number, [ S -> to_int S]),
+      (regex_text,   [ S -> S ]),
+      (regex_word,   [ S -> word S ]),
+      (regex_def,    [ S -> definition ]),
+      (regex_const,  [ S -> constant ]),
+      (regex_white,  [ S -> white ]) }
+
+def lexify_front =
+    [ nil                S -> throw (format "lexer error at: {}" S)
+    | (cons (PAT, A) AA) S ->
+        if Regex::look_at PAT S then
+            let L = Regex::look_match PAT S in
+            let S = Regex::replace PAT S "" in (A L, S)
+        else lexify_front AA S ]
+
+def lexify0 = 
+    [ TABLE "" -> nil
+    | TABLE S  ->
+        let (L, S) = lexify_front TABLE S in
+        let LL = lexify0 TABLE S in cons L LL ]
+
+def lexify = filter [LEX -> not (LEX == white)] . lexify0 lexeme_table
+
+# parser
+
+def look = [ {} -> fail {} | {B|BB} -> success B BB ]
+def eol  = [ {} -> success none {} | LL -> fail LL ]
+
+def parse_int    = look <*> [ N:int  -> success N | _ -> fail ]
+def parse_text   = look <*> [ T:text -> success T | _ -> fail ]
+def parse_word   = look <*> [ (word S) -> success (word S) | _ -> fail ]
+def parse_def    = look <*> [ definition -> success definition | _ -> fail ]
+def parse_const  = look <*> [ constant -> success constant | _ -> fail ]
+
+def parse_expr   = star (parse_word <+> parse_int <+> parse_text)
+def parse_command =
+    (parse_def <*> \D -> parse_word <*> \W -> parse_expr <@> \DD -> D W DD)
+    <+> (parse_const <*> \C -> (plus parse_word) <@> \CC -> C CC)
+    <+> (parse_expr)
+def parse_line = parse_command <*> \P -> eol <@> \_ -> P
+
+def parse = [ L -> search parse_line L [X L -> X] [X L -> throw X] [X L -> throw X] ]
+
+# environment
+
+data boom, unknown
+
+val env = Dict::from_list primitives
+
+def primitives = {
+    ("fetch", prim_fetch), ("put", prim_put), ("delete", prim_delete),
+    ("+", prim_plus), ("-", prim_min), ("*", prim_mul), ("/", prim_div),
+    ("=", prim_eq), ("true", prim_true), ("false", prim_false),
+    ("line", prim_line), ("print", prim_print),
+    ("to_int", prim_to_int), ("to_text", prim_to_text) }
+
+def fetch = [ 0 {X|_} -> X | N {_,XX} -> fetch (N - 1) XX | _ _ -> throw boom ]
+def put = [ 0 X SS -> {X|SS} | N X {S|SS} -> {S, put (N - 1) X SS} | _ _ _ -> throw boom ]
+def delete = [ 0 {_|SS} -> SS | N {S|SS} -> {S, delete (N - 1) SS} | _ _ -> throw boom ]
+def swap = [ {A,B|SS} -> {B,A|SS} | _ -> throw boom ]
+
+def prim_fetch = [ {_, N:int| SS} -> {fetch N SS|SS}  | _ -> throw boom ]
+def prim_put = [ {_, N:int, X| SS} -> put N X SS | _ -> throw boom ]
+def prim_delete = [ {_, N:int| SS} -> delete N SS | _ -> throw boom ]
+
+def prim_plus = [ {_, N0:int, N1:int|SS} -> {N0+N1|SS} | _ -> throw boom ]
+def prim_min = [ {_, N0:int, N1:int|SS} -> {N0-N1|SS} | _ -> throw boom ]
+def prim_mul = [ {_, N0:int, N1:int|SS} -> {N0*N1|SS} | _ -> throw boom ]
+def prim_div = [ {_, N0:int, N1:int|SS} -> {N0/N1|SS} | _ -> throw boom ]
+
+def prim_eq = [ {_, N0, N1|SS} -> if N0 == N1 then {word "true"|SS} else {word "false"|SS} | _ -> throw boom ]
+def prim_true = [ {_, P, Q|SS} -> {P|SS} | _ -> throw boom ]
+def prim_false = [ {_, P, Q|SS} -> {Q|SS} | _ -> throw boom ]
+
+def prim_line = [ {_|SS} -> {read_line stdin|SS} | _ -> throw boom ]
+def prim_print = [ {_, X|SS} -> print X "\n"; SS | _ -> throw boom ]
+
+def prim_to_int = [ {_, N|SS} -> {to_int N|SS} | _ -> throw boom ]
+def prim_to_text = [ {_, N|SS} -> {to_text N|SS} | _ -> throw boom ]
+
+# evaluator
+
+def print_stack = [ SS -> print ".. " SS "\n" ]
+
+def eval_step =
+    [ (definition (word D) DD) -> Dict::set env D [ {_|SS} -> DD ++ SS ]; none
+    | (constant DD) -> foldl [E (word D) -> Dict::set E D constant] env DD; none
+    | {} -> none | {N:int|SS} -> swap {N|SS} | {T:text|SS} -> swap {T|SS}
+    | {(word S)|SS} ->
+        if Dict::has env S then
+           [ constant -> swap {word S|SS}
+           | F -> F {word S|SS} ] (Dict::get env S)
+        else throw unknown ]
+
+def eval = [ SS -> print_stack SS; [ none -> none | SS -> eval SS ] (eval_step SS) ]
+
+# repl
+
+def repl = 
+    print ">> ";
+    let L = read_line stdin in 
+    if eof stdin then none else 
+    try (eval . parse . lexify) L; repl
+    catch [ E -> print "exception: " E "\n"; repl ]
+
+def main = repl
