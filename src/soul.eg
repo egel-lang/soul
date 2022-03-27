@@ -24,7 +24,7 @@ data white, word, definition, constant
 
 def lexeme_table =
     { (regex_number, [ S -> to_int S]),
-      (regex_text,   [ S -> S ]),
+      (regex_text,   [ S -> String::retain 1 ((String::count_char S) - 1) S ]),
       (regex_word,   [ S -> word S ]),
       (regex_def,    [ S -> definition ]),
       (regex_const,  [ S -> constant ]),
