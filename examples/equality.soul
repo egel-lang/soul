@@ -1,0 +1,4 @@
+# small test of equality
+= 1 2 "yes" "no" print
+= 1 1 "yes" "no" print
+
