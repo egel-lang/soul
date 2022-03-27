@@ -81,7 +81,7 @@ def primitives = {
 
 def fetch = [ 0 {X|_} -> X | N {_|XX} -> fetch (N - 1) XX | _ _ -> throw boom ]
 def put = [ 0 X SS -> {X|SS} | N X {S|SS} -> {S, put (N - 1) X SS} | _ _ _ -> throw boom ]
-def delete = [ 0 {_|SS} -> SS | N {S|SS} -> {S, delete (N - 1) SS} | _ _ -> throw boom ]
+def delete = [ 0 {_|SS} -> SS | N {S|SS} -> {S|delete (N - 1) SS} | _ _ -> throw boom ]
 def swap = [ {A,B|SS} -> {B,A|SS} | _ -> throw boom ]
 
 def prim_fetch = [ {_, N:int| SS} -> {fetch N SS|SS}  | _ -> throw boom ]
