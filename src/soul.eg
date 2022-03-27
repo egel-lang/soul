@@ -14,7 +14,7 @@ using Search
 # lexer
 
 val regex_number = Regex::compile "-?[0-9]+"
-val regex_text   = Regex::compile "\".*\""
+val regex_text   = Regex::compile "\"[^\"]*\""
 val regex_word   = Regex::compile "[a-z|A-Z|0-9|+|-|*/*|=]+"
 val regex_def    = Regex::compile ":"
 val regex_const  = Regex::compile "!"
@@ -106,7 +106,6 @@ def prim_to_text = [ {_, N|SS} -> {to_text N|SS} | _ -> throw boom ]
 # evaluator
 
 def print_word = [ N:int -> print N " " | T:text -> print "\"" T "\" " | (word S) -> print S " " ]
-
 def print_stack = [ SS -> print ".. "; map print_word SS; print "\n" ]
 
 def eval_step =
