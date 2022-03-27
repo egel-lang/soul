@@ -9,7 +9,7 @@ another stack. For example, Forth has a data and return stack
 and Postscript has an extra stack outputting to a page.
 
 Soul is a minimalist language that provides one thing, and
-one thing only: the one sole stack. That, of course, is
+one thing only, the one sole stack. That, of course, is
 very problematic as a model of computation but Soul gets
 around that with two tricks:
 
