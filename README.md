@@ -29,7 +29,7 @@ Output 42, showcasing the defintion of a symbol:
 
 ```
 # calculate the answer to everything
-:f * 6
+:f  * 6
 + 3 4 f print
 ```
 
