@@ -105,7 +105,9 @@ def prim_to_text = [ {_, N|SS} -> {to_text N|SS} | _ -> throw boom ]
 
 # evaluator
 
-def print_stack = [ SS -> print ".. " SS "\n" ]
+def print_word = [ N:int -> print N " " | T:text -> print "\"" T "\" " | (word S) -> print S " " ]
+
+def print_stack = [ SS -> print ".. "; map print_word SS; print "\n" ]
 
 def eval_step =
     [ (definition (word D) DD) -> Dict::set env D [ {_|SS} -> DD ++ SS ]; none
