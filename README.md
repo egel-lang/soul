@@ -57,6 +57,6 @@ The faculty function:
 fac 6 print
 ```
 
-The soul interpreter is written as an Egel script and
+The Soul interpreter is written as an Egel script and
 implements a REPL.
 
