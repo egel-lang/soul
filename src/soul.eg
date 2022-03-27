@@ -15,7 +15,7 @@ using Search
 
 val regex_number = Regex::compile "-?[0-9]+"
 val regex_text   = Regex::compile "\"[^\"]*\""
-val regex_word   = Regex::compile "[a-z|A-Z|0-9|+|-|*/*|=]+"
+val regex_word   = Regex::compile "[a-z|A-Z|0-9|+|-|*/*|=|_]+"
 val regex_def    = Regex::compile ":"
 val regex_const  = Regex::compile "!"
 val regex_white  = Regex::compile "([ \t\n]+|#.*)"
@@ -79,7 +79,7 @@ def primitives = {
     ("line", prim_line), ("print", prim_print),
     ("to_int", prim_to_int), ("to_text", prim_to_text) }
 
-def fetch = [ 0 {X|_} -> X | N {_,XX} -> fetch (N - 1) XX | _ _ -> throw boom ]
+def fetch = [ 0 {X|_} -> X | N {_|XX} -> fetch (N - 1) XX | _ _ -> throw boom ]
 def put = [ 0 X SS -> {X|SS} | N X {S|SS} -> {S, put (N - 1) X SS} | _ _ _ -> throw boom ]
 def delete = [ 0 {_|SS} -> SS | N {S|SS} -> {S, delete (N - 1) SS} | _ _ -> throw boom ]
 def swap = [ {A,B|SS} -> {B,A|SS} | _ -> throw boom ]
