@@ -15,7 +15,7 @@ using Search
 
 val regex_number = Regex::compile "-?[0-9]+"
 val regex_text   = Regex::compile "\"[^\"]*\""
-val regex_word   = Regex::compile "[a-z|A-Z|0-9|+|\\-|*/*|=|_]+"
+val regex_word   = Regex::compile "[a-z|A-Z|0-9|+|\\-|*|/|=|_]+"
 val regex_def    = Regex::compile ":"
 val regex_const  = Regex::compile "!"
 val regex_white  = Regex::compile "([ \t\n]+|#.*)"
