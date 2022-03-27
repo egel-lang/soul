@@ -1,0 +1,7 @@
+# the get function - fetch and delete a value from the stack
+:get3   delete 1
+:get1   fetch 5 + 3 delete get3
+:get2   delete 1
+:get0   fetch 4 + 4 fetch get2 
+:get    fetch 2 get0 get1 
+get 1 print "hello"
