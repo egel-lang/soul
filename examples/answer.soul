@@ -1,0 +1,3 @@
+# calculate the answer to everything
+:f * 6
++ 3 4 f print
