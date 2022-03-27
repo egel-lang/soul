@@ -1,0 +1,19 @@
+# the faculty function
+#
+# get
+:get3   delete 1
+:get1   fetch 5 + 3 delete get3
+:get2   delete 1
+:get0   fetch 4 + 4 fetch get2 
+:get    fetch 2 get0 get1 
+
+:fac3   get 2 fac *
+:fac2   fetch 3 - 1 fac3
+:fac1   delete 1 1
+:fac0   get 4 = 0 fac1 fac2
+
+:fac    fetch 1 fac0 
+fac 0 print
+fac 2 print
+fac 6 print
+
