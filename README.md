@@ -18,7 +18,8 @@ around that with two tricks:
    gets swapped with whatever is underneath.
 
 Soul expressions consist of integers, texts, and words. Words
-may define other expressions. A Soul program runs until the 
+may define other expressions. A Soul program continuously 
+evaluates the top of the stack and  runs until the 
 stack is empty.
 
 ## Predefined Operators
