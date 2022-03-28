@@ -60,9 +60,8 @@ The faculty function:
 # the faculty function
 
 # get
-:get3   delete 1
-:get1   fetch 5 + 3 delete get3
 :get2   delete 1
+:get1   fetch 5 + 3 delete get2
 :get0   fetch 4 + 4 fetch get2 
 :get    fetch 2 get0 get1 
 
