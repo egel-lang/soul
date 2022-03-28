@@ -58,5 +58,8 @@ fac 6 print
 ```
 
 The Soul interpreter is written as an Egel script and
-implements a REPL.
+implements a REPL. 
 
+You can run the interpreter with `egel soul.eg`. Either
+pipe the example programs to that process or copy-paste
+the source directly into the REPL.
