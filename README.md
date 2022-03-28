@@ -32,7 +32,7 @@ operators. `+` is overloaded to work on texts also.
 
 The equality operator `=` tests two arguments for equivalence, it
 results in either `true` or `false`. Both booleans are functions
-with select between two arguments; e.g., `true f g` evaluates to
+that select between two arguments; e.g., `true f g` evaluates to
 `f`.
 
 `print` and `line` are the basic input/output words, `to_int` and
