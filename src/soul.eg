@@ -88,7 +88,8 @@ def prim_fetch = [ {_, N:int| SS} -> {fetch N SS|SS}  | _ -> throw boom ]
 def prim_put = [ {_, N:int, X| SS} -> put N X SS | _ -> throw boom ]
 def prim_delete = [ {_, N:int| SS} -> delete N SS | _ -> throw boom ]
 
-def prim_plus = [ {_, N0:int, N1:int|SS} -> {N0+N1|SS} | _ -> throw boom ]
+def prim_plus = [ {_, N0:int, N1:int|SS} -> {N0+N1|SS} |
+                  {_, T0:text, T1:text|SS} -> {T0+T1|SS} | _ -> throw boom ]
 def prim_min = [ {_, N0:int, N1:int|SS} -> {N0-N1|SS} | _ -> throw boom ]
 def prim_mul = [ {_, N0:int, N1:int|SS} -> {N0*N1|SS} | _ -> throw boom ]
 def prim_div = [ {_, N0:int, N1:int|SS} -> {N0/N1|SS} | _ -> throw boom ]
