@@ -23,12 +23,6 @@ stack is empty.
 
 ## Predefined Operators
 
-    ("fetch", prim_fetch), ("put", prim_put), ("delete", prim_delete),
-    ("+", prim_plus), ("-", prim_min), ("*", prim_mul), ("/", prim_div),
-    ("=", prim_eq), ("true", prim_true), ("false", prim_false),
-    ("line", prim_line), ("print", prim_print),
-    ("to_int", prim_to_int), ("to_text", prim_to_text) }
-
 `fetch`, `put`, and `delete` inspect or modify the stack, they all
 take an integer argument anp `put` a second argument to put somewhere
 in the stack.
