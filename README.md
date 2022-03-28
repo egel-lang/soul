@@ -17,7 +17,7 @@ around that with two tricks:
 2. Whenever a constant is found on top of the stack, that
    gets swapped with whatever is underneath.
 
-Soul expressions exists of integers, strings, and words. Words
+Soul expressions exist of integers, strings, and words. Words
 may define other expressions. A Soul program runs until the 
 stack is empty.
 
