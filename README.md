@@ -52,8 +52,8 @@ The faculty function:
 :fac2   fetch 3 - 1 fac3
 :fac1   delete 1 1
 :fac0   get 4 = 0 fac1 fac2
-
 :fac    fetch 1 fac0 
+
 fac 6 print
 ```
 
