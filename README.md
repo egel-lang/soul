@@ -17,9 +17,34 @@ around that with two tricks:
 2. Whenever a constant is found on top of the stack, that
    gets swapped with whatever is underneath.
 
-Soul expressions exist of integers, strings, and words. Words
+Soul expressions exist of integers, texts, and words. Words
 may define other expressions. A Soul program runs until the 
 stack is empty.
+
+## Predefined Operators
+
+    ("fetch", prim_fetch), ("put", prim_put), ("delete", prim_delete),
+    ("+", prim_plus), ("-", prim_min), ("*", prim_mul), ("/", prim_div),
+    ("=", prim_eq), ("true", prim_true), ("false", prim_false),
+    ("line", prim_line), ("print", prim_print),
+    ("to_int", prim_to_int), ("to_text", prim_to_text) }
+
+`fetch`, `put`, and `delete` inspect or modify the stack, they all
+take an integer argument anp `put` a second argument to put somewhere
+in the stack.
+
+The arithmetic operators `+`, `-`, `*`, `/` are all binary prefix
+operators. `+` is overloaded to work on texts also.
+
+The equality operator `=` tests two arguments for equivalence, it
+results in either `true` or `false`. Both booleans are functions
+with select between two arguments; e.g., `true f g` evaluates to
+`f`.
+
+`print` and `line` are the basic input/output words, `to_int` and
+`to_text` convert between integers and texts.
+
+## Examples
 
 Hello World example:
 
