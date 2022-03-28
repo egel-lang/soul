@@ -24,7 +24,7 @@ stack is empty.
 ## Predefined Operators
 
 `fetch`, `put`, and `delete` inspect or modify the stack, they all
-take an integer argument anp `put` a second argument to put somewhere
+take an integer argument where `put` takes a second argument to put somewhere
 in the stack.
 
 The arithmetic operators `+`, `-`, `*`, `/` are all binary prefix
