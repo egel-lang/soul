@@ -13,7 +13,7 @@ one thing only, the one sole stack. That, of course, is
 very problematic as a model of computation but Soul gets
 around that with two tricks:
 
-1. Treat the stack as random access memory
+1. Treat the stack as random access memory.
 2. Words rewrite to their definition but whenever a constant 
    integer or text is found on top of the
    stack, that gets swapped with whatever is underneath.
