@@ -19,8 +19,8 @@ around that with two tricks:
    stack, that gets swapped with whatever is underneath.
 
 Soul expressions consist of integers, texts, and words. Words
-may define other expressions. A Soul program defines a stack,
-then the top of the stack is repeatedly evaluated until the stack
+may define other expressions. A Soul expression defines a stack.
+The top of the stack is repeatedly evaluated until the stack
 is empty. 
 
 ## Predefined Operators
