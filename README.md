@@ -14,8 +14,8 @@ very problematic as a model of computation but Soul gets
 around that with two tricks:
 
 1. Treat the stack as random access memory
-2. Whenever a constant is found on top of the stack, that
-   gets swapped with whatever is underneath.
+2. Whenever a constant integer or text is found on top of the
+   stack, that gets swapped with whatever is underneath.
 
 Soul expressions consist of integers, texts, and words. Words
 may define other expressions. A Soul program continuously 
